@@ -21,16 +21,13 @@ import nltk
 from nltk.tokenize import sent_tokenize
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
 load_dotenv()
 
-# Download required NLTK data
 try:
     nltk.data.find('tokenizers/punkt')
 except LookupError:
     nltk.download('punkt')
 
-# Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -40,10 +37,10 @@ class DocumentChunk:
     content: str
     source_file: str
     chunk_id: str
-    line_number: Optional[int] = None  # Start line of the clause
-    clause_id: Optional[str] = None    # Specific clause identifier (e.g., "Clause a.i.2")
+    line_number: Optional[int] = None  
+    clause_id: Optional[str] = None    
     document_type: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None  # Includes page_number, line_range
+    metadata: Optional[Dict[str, Any]] = None  
 
 @dataclass
 class RetrievalResult:
@@ -56,7 +53,7 @@ class RetrievalResult:
 class QueryResponse:
     """Structured JSON response for query results."""
     query: str
-    answer: Dict[str, Any]  # Structured answer with response, suggestions, references
+    answer: Dict[str, Any]
     confidence_score: float
     decision_rationale: str
     timestamp: str
@@ -70,7 +67,6 @@ class DocumentProcessor:
     
     def is_clause_heading(self, text: str) -> bool:
         """Check if the text is a clause heading using a regex pattern."""
-        # Matches patterns like "Section 1.1(a)", "Clause a.i.2", "Article 2.3", etc.
         pattern = r"^(Section|Clause|Article|Paragraph)\s+[\d\w\.\(\)]+"
         return bool(re.match(pattern, text.strip(), re.IGNORECASE))
     
@@ -108,13 +104,13 @@ class DocumentProcessor:
                                         document_type="pdf",
                                         metadata={"page_number": page_num + 1, "line_range": (start_line, line_num - 1)}
                                     ))
-                                # Start new clause
+                         
                                 current_clause_id = self.extract_clause_id(line)
                                 current_clause_lines = [line.strip()]
                                 start_line = line_num
                             else:
                                 current_clause_lines.append(line.strip())
-                        # Add the last clause of the page
+                      
                         if current_clause_lines:
                             clause_text = '\n'.join(current_clause_lines)
                             clause_id = current_clause_id or f"{Path(file_path).stem}_page_{page_num}_lines_{start_line}-{len(lines)}"
@@ -346,7 +342,7 @@ class LLMProcessor:
         
         context_parts = []
         references = []
-        max_context_length = 6000  # Characters
+        max_context_length = 6000  
         
         for i, result in enumerate(retrieved_chunks):
             chunk = result.chunk
