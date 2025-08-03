@@ -1,0 +1,228 @@
+{
+  "llm_provider": "Groq",
+  "model_used": "llama3-70b-8192",
+  "queries_processed": 4,
+  "timestamp": "2025-08-03T19:30:12.140643",
+  "responses": [
+    {
+      "query": "Does this policy cover knee surgery, and what are the conditions?",
+      "answer": "Error processing query with Groq LLM. Please try again.",
+      "confidence_score": 0.0,
+      "supporting_evidence": [
+        {
+          "source": "Documents/policy1.pdf",
+          "chunk_id": "policy1_page_0",
+          "content": " \nNational Insurance Co. Ltd.  \nRegd. & Head Office: Premises No. 18 -0374,  \nPlot no.  CBD -81, New Town, Kolkata - 700156  Page 1 of 16 Arogya Sanjeevani  Policy  - National  \nUIN: NICHLIP25041V0224...",
+          "relevance_score": 0.5019108653068542,
+          "page_number": 1,
+          "section_title": null
+        },
+        {
+          "source": "Documents/policy1.pdf",
+          "chunk_id": "policy1_page_7",
+          "content": " \nNational Insurance Co. Ltd.  \nRegd. & Head Office: Premises No. 18 -0374,  \nPlot no.  CBD -81, New Town, Kolkata - 700156  Page 8 of 16 Arogya Sanjeevani  Policy  - National  \nUIN: NICHLIP25041V0224...",
+          "relevance_score": 0.44162431359291077,
+          "page_number": 8,
+          "section_title": null
+        },
+        {
+          "source": "Documents/policy1.pdf",
+          "chunk_id": "policy1_page_6",
+          "content": " \nNational Insurance Co. Ltd.  \nRegd. & Head Office: Premises No. 18 -0374,  \nPlot no.  CBD -81, New Town, Kolkata - 700156  Page 7 of 16 Arogya Sanjeevani  Policy  - National  \nUIN: NICHLIP25041V0224...",
+          "relevance_score": 0.43174195289611816,
+          "page_number": 7,
+          "section_title": null
+        },
+        {
+          "source": "Documents/policy1.pdf",
+          "chunk_id": "policy1_page_4",
+          "content": " \nNational Insurance Co. Ltd.  \nRegd. & Head Office: Premises No. 18 -0374,  \nPlot no.  CBD -81, New Town, Kolkata - 700156  Page 5 of 16 Arogya Sanjeevani  Policy  - National  \nUIN: NICHLIP25041V0224...",
+          "relevance_score": 0.4286753535270691,
+          "page_number": 5,
+          "section_title": null
+        },
+        {
+          "source": "Documents/policy1.pdf",
+          "chunk_id": "policy1_page_5",
+          "content": " \nNational Insurance Co. Ltd.  \nRegd. & Head Office: Premises No. 18 -0374,  \nPlot no.  CBD -81, New Town, Kolkata - 700156  Page 6 of 16 Arogya Sanjeevani  Policy  - National  \nUIN: NICHLIP25041V0224...",
+          "relevance_score": 0.4218286871910095,
+          "page_number": 6,
+          "section_title": null
+        }
+      ],
+      "decision_rationale": "Groq processing error: Error code: 413 - {'error': {'message': 'Request too large for model `llama3-70b-8192` in organization `org_01k10cwweqfz6bz0wxh6vegq2e` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Requested 6625, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+      "relevant_clauses": [],
+      "conditions_and_exclusions": [],
+      "recommendations": [
+        "Please retry the query or contact support"
+      ],
+      "timestamp": "2025-08-03T19:30:11.547178",
+      "processing_time_ms": 198
+    },
+    {
+      "query": "What is the process for filing a workers compensation claim?",
+      "answer": "Error processing query with Groq LLM. Please try again.",
+      "confidence_score": 0.0,
+      "supporting_evidence": [
+        {
+          "source": "Documents/policy1.pdf",
+          "chunk_id": "policy1_page_9",
+          "content": " \nNational Insurance Co. Ltd.  \nRegd. & Head Office: Premises No. 18 -0374,  \nPlot no.  CBD -81, New Town, Kolkata - 700156  Page 10 of 16 Arogya Sanjeevani  Policy  - National  \nUIN: NICHLIP25041V022...",
+          "relevance_score": 0.4115482270717621,
+          "page_number": 10,
+          "section_title": null
+        },
+        {
+          "source": "Documents/policy1.pdf",
+          "chunk_id": "policy1_page_0",
+          "content": " \nNational Insurance Co. Ltd.  \nRegd. & Head Office: Premises No. 18 -0374,  \nPlot no.  CBD -81, New Town, Kolkata - 700156  Page 1 of 16 Arogya Sanjeevani  Policy  - National  \nUIN: NICHLIP25041V0224...",
+          "relevance_score": 0.3311973214149475,
+          "page_number": 1,
+          "section_title": null
+        },
+        {
+          "source": "Documents/policy1.pdf",
+          "chunk_id": "policy1_page_6",
+          "content": " \nNational Insurance Co. Ltd.  \nRegd. & Head Office: Premises No. 18 -0374,  \nPlot no.  CBD -81, New Town, Kolkata - 700156  Page 7 of 16 Arogya Sanjeevani  Policy  - National  \nUIN: NICHLIP25041V0224...",
+          "relevance_score": 0.32056504487991333,
+          "page_number": 7,
+          "section_title": null
+        },
+        {
+          "source": "Documents/policy1.pdf",
+          "chunk_id": "policy1_page_4",
+          "content": " \nNational Insurance Co. Ltd.  \nRegd. & Head Office: Premises No. 18 -0374,  \nPlot no.  CBD -81, New Town, Kolkata - 700156  Page 5 of 16 Arogya Sanjeevani  Policy  - National  \nUIN: NICHLIP25041V0224...",
+          "relevance_score": 0.309398889541626,
+          "page_number": 5,
+          "section_title": null
+        },
+        {
+          "source": "Documents/policy1.pdf",
+          "chunk_id": "policy1_page_8",
+          "content": " \nNational Insurance Co. Ltd.  \nRegd. & Head Office: Premises No. 18 -0374,  \nPlot no.  CBD -81, New Town, Kolkata - 700156  Page 9 of 16 Arogya Sanjeevani  Policy  - National  \nUIN: NICHLIP25041V0224...",
+          "relevance_score": 0.28360414505004883,
+          "page_number": 9,
+          "section_title": null
+        }
+      ],
+      "decision_rationale": "Groq processing error: Error code: 413 - {'error': {'message': 'Request too large for model `llama3-70b-8192` in organization `org_01k10cwweqfz6bz0wxh6vegq2e` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Requested 6439, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+      "relevant_clauses": [],
+      "conditions_and_exclusions": [],
+      "recommendations": [
+        "Please retry the query or contact support"
+      ],
+      "timestamp": "2025-08-03T19:30:11.796436",
+      "processing_time_ms": 229
+    },
+    {
+      "query": "What are the data retention requirements for customer information?",
+      "answer": "Error processing query with Groq LLM. Please try again.",
+      "confidence_score": 0.0,
+      "supporting_evidence": [
+        {
+          "source": "Documents/policy1.pdf",
+          "chunk_id": "policy1_page_8",
+          "content": " \nNational Insurance Co. Ltd.  \nRegd. & Head Office: Premises No. 18 -0374,  \nPlot no.  CBD -81, New Town, Kolkata - 700156  Page 9 of 16 Arogya Sanjeevani  Policy  - National  \nUIN: NICHLIP25041V0224...",
+          "relevance_score": 0.19235190749168396,
+          "page_number": 9,
+          "section_title": null
+        },
+        {
+          "source": "Documents/policy1.pdf",
+          "chunk_id": "policy1_page_3",
+          "content": " \nNational Insurance Co. Ltd.  \nRegd. & Head Office: Premises No. 18 -0374,  \nPlot no.  CBD -81, New Town, Kolkata - 700156  Page 4 of 16 Arogya Sanjeevani  Policy  - National  \nUIN: NICHLIP25041V0224...",
+          "relevance_score": 0.17949455976486206,
+          "page_number": 4,
+          "section_title": null
+        },
+        {
+          "source": "Documents/policy1.pdf",
+          "chunk_id": "policy1_page_4",
+          "content": " \nNational Insurance Co. Ltd.  \nRegd. & Head Office: Premises No. 18 -0374,  \nPlot no.  CBD -81, New Town, Kolkata - 700156  Page 5 of 16 Arogya Sanjeevani  Policy  - National  \nUIN: NICHLIP25041V0224...",
+          "relevance_score": 0.177230104804039,
+          "page_number": 5,
+          "section_title": null
+        },
+        {
+          "source": "Documents/policy1.pdf",
+          "chunk_id": "policy1_page_2",
+          "content": " \nNational Insurance Co. Ltd.  \nRegd. & Head Office: Premises No. 18 -0374,  \nPlot no.  CBD -81, New Town, Kolkata - 700156  Page 3 of 16 Arogya Sanjeevani  Policy  - National  \nUIN: NICHLIP25041V0224...",
+          "relevance_score": 0.14380185306072235,
+          "page_number": 3,
+          "section_title": null
+        },
+        {
+          "source": "Documents/policy1.pdf",
+          "chunk_id": "policy1_page_9",
+          "content": " \nNational Insurance Co. Ltd.  \nRegd. & Head Office: Premises No. 18 -0374,  \nPlot no.  CBD -81, New Town, Kolkata - 700156  Page 10 of 16 Arogya Sanjeevani  Policy  - National  \nUIN: NICHLIP25041V022...",
+          "relevance_score": 0.14127787947654724,
+          "page_number": 10,
+          "section_title": null
+        }
+      ],
+      "decision_rationale": "Groq processing error: Error code: 413 - {'error': {'message': 'Request too large for model `llama3-70b-8192` in organization `org_01k10cwweqfz6bz0wxh6vegq2e` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Requested 6485, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+      "relevant_clauses": [],
+      "conditions_and_exclusions": [],
+      "recommendations": [
+        "Please retry the query or contact support"
+      ],
+      "timestamp": "2025-08-03T19:30:11.982090",
+      "processing_time_ms": 167
+    },
+    {
+      "query": "What benefits are available for remote employees?",
+      "answer": "Error processing query with Groq LLM. Please try again.",
+      "confidence_score": 0.0,
+      "supporting_evidence": [
+        {
+          "source": "Documents/policy1.pdf",
+          "chunk_id": "policy1_page_4",
+          "content": " \nNational Insurance Co. Ltd.  \nRegd. & Head Office: Premises No. 18 -0374,  \nPlot no.  CBD -81, New Town, Kolkata - 700156  Page 5 of 16 Arogya Sanjeevani  Policy  - National  \nUIN: NICHLIP25041V0224...",
+          "relevance_score": 0.1533469706773758,
+          "page_number": 5,
+          "section_title": null
+        },
+        {
+          "source": "Documents/policy1.pdf",
+          "chunk_id": "policy1_page_3",
+          "content": " \nNational Insurance Co. Ltd.  \nRegd. & Head Office: Premises No. 18 -0374,  \nPlot no.  CBD -81, New Town, Kolkata - 700156  Page 4 of 16 Arogya Sanjeevani  Policy  - National  \nUIN: NICHLIP25041V0224...",
+          "relevance_score": 0.14882662892341614,
+          "page_number": 4,
+          "section_title": null
+        },
+        {
+          "source": "Documents/policy1.pdf",
+          "chunk_id": "policy1_page_5",
+          "content": " \nNational Insurance Co. Ltd.  \nRegd. & Head Office: Premises No. 18 -0374,  \nPlot no.  CBD -81, New Town, Kolkata - 700156  Page 6 of 16 Arogya Sanjeevani  Policy  - National  \nUIN: NICHLIP25041V0224...",
+          "relevance_score": 0.1478467732667923,
+          "page_number": 6,
+          "section_title": null
+        },
+        {
+          "source": "Documents/policy1.pdf",
+          "chunk_id": "policy1_page_6",
+          "content": " \nNational Insurance Co. Ltd.  \nRegd. & Head Office: Premises No. 18 -0374,  \nPlot no.  CBD -81, New Town, Kolkata - 700156  Page 7 of 16 Arogya Sanjeevani  Policy  - National  \nUIN: NICHLIP25041V0224...",
+          "relevance_score": 0.12159163504838943,
+          "page_number": 7,
+          "section_title": null
+        },
+        {
+          "source": "Documents/policy1.pdf",
+          "chunk_id": "policy1_page_2",
+          "content": " \nNational Insurance Co. Ltd.  \nRegd. & Head Office: Premises No. 18 -0374,  \nPlot no.  CBD -81, New Town, Kolkata - 700156  Page 3 of 16 Arogya Sanjeevani  Policy  - National  \nUIN: NICHLIP25041V0224...",
+          "relevance_score": 0.11806490272283554,
+          "page_number": 3,
+          "section_title": null
+        }
+      ],
+      "decision_rationale": "Groq processing error: Error code: 413 - {'error': {'message': 'Request too large for model `llama3-70b-8192` in organization `org_01k10cwweqfz6bz0wxh6vegq2e` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Requested 6530, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+      "relevant_clauses": [],
+      "conditions_and_exclusions": [],
+      "recommendations": [
+        "Please retry the query or contact support"
+      ],
+      "timestamp": "2025-08-03T19:30:12.140594",
+      "processing_time_ms": 143
+    }
+  ]
+}
