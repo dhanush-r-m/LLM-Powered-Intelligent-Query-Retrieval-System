@@ -4,6 +4,13 @@ openai
 python-dotenv
 fastapi
 uvicorn
-numpy
+numpy==1.24.4
 groq
 pydantic
+python-docx
+faiss-cpu
+PyPDF2
+tiktoken
+nltk
+python-multipart
+aiofiles
