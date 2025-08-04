@@ -1,0 +1,464 @@
+{
+  "llm_provider": "Groq",
+  "model_used": "meta-llama/llama-4-scout-17b-16e-instruct",
+  "queries_processed": 15,
+  "timestamp": "2025-08-04T19:02:12.857045",
+  "responses": [
+    {
+      "query": "Does the policy cover cataract operation and what is the limit if the sum insured is \u20b91,00,000?",
+      "answer": {
+        "response": "The policy covers cataract operation. However, the limit for cataract operation is not explicitly stated. The maximum liability of the Company under all Claims during each Policy Period is the Sum Insured (Individual or Floater) opted and Cumulative Bonus (if any) specified in the Schedule.",
+        "suggestions": [],
+        "references": [
+          {
+            "source": "policy1.pdf",
+            "page_number": 1,
+            "line_number": 10,
+            "line_range": [
+              10,
+              15
+            ],
+            "clause_id": "2. OPERATIVE CLAUSE",
+            "clause": "If during the Policy Period one or more Insured Person (s) is required to be hospitalized for treatment of an Illness or Injury at a Hospital/ Day Care Center, following Medical Advice of a duly qualified Medical Practitioner, the Company shall indemnify Medically Necessary, expenses towards the Coverage mentioned hereunder."
+          },
+          {
+            "source": "policy1.pdf",
+            "page_number": 1,
+            "line_number": 20,
+            "line_range": [
+              20,
+              25
+            ],
+            "clause_id": "2. OPERATIVE CLAUSE",
+            "clause": "Maximum liability of the Company under all such Claims during each Policy Period shall be the Sum Insured (Individual or Floater) opted and Cumulative Bonus (if any) specified in the Schedule."
+          }
+        ],
+        "rationale": "The policy covers cataract operation as it is a medically necessary expense for treatment of an illness. The limit for cataract operation is not explicitly stated, but the maximum liability of the Company is the Sum Insured (Individual or Floater) opted and Cumulative Bonus (if any) specified in the Schedule. For a sum insured of \u20b91,00,000, the maximum liability would be \u20b91,00,000. However, specific sub-limits for cataract operations may be mentioned elsewhere in the policy document.",
+        "confidence_score": 0.9
+      },
+      "confidence_score": 0.9,
+      "decision_rationale": "The policy covers cataract operation as it is a medically necessary expense for treatment of an illness. The limit for cataract operation is not explicitly stated, but the maximum liability of the Company is the Sum Insured (Individual or Floater) opted and Cumulative Bonus (if any) specified in the Schedule. For a sum insured of \u20b91,00,000, the maximum liability would be \u20b91,00,000. However, specific sub-limits for cataract operations may be mentioned elsewhere in the policy document.",
+      "timestamp": "2025-08-04T19:01:57.460488",
+      "processing_time_ms": 1693
+    },
+    {
+      "query": "Does the policy cover 23-hour oral chemotherapy under day care treatment?",
+      "answer": {
+        "response": "The policy does not explicitly mention coverage for 23-hour oral chemotherapy under day care treatment.",
+        "suggestions": [],
+        "references": [
+          {
+            "source": "Documents\\BAJHLIP23020V012223.pdf",
+            "page_number": 39,
+            "line_number": 1,
+            "line_range": [
+              1,
+              73
+            ],
+            "clause_id": "N/A",
+            "clause": "The provided context does not contain specific information about coverage for 23-hour oral chemotherapy under day care treatment."
+          }
+        ],
+        "rationale": "The provided context does not contain specific information about coverage for 23-hour oral chemotherapy under day care treatment. The document appears to be a policy wording document from Bajaj Allianz General Insurance Co. Ltd., but it does not explicitly mention the requested treatment. Therefore, it is unclear if the policy covers 23-hour oral chemotherapy under day care treatment.",
+        "confidence_score": 0.8
+      },
+      "confidence_score": 0.8,
+      "decision_rationale": "The provided context does not contain specific information about coverage for 23-hour oral chemotherapy under day care treatment. The document appears to be a policy wording document from Bajaj Allianz General Insurance Co. Ltd., but it does not explicitly mention the requested treatment. Therefore, it is unclear if the policy covers 23-hour oral chemotherapy under day care treatment.",
+      "timestamp": "2025-08-04T19:01:58.410006",
+      "processing_time_ms": 923
+    },
+    {
+      "query": "Is a 26-year-old unemployed dependent child eligible for coverage?",
+      "answer": {
+        "response": "A 26-year-old unemployed dependent child is not eligible for coverage.",
+        "suggestions": [],
+        "references": [
+          {
+            "source": "Documents\\policy1.pdf",
+            "page_number": 2,
+            "line_number": 40,
+            "line_range": [
+              40,
+              45
+            ],
+            "clause_id": "3.21",
+            "clause": "Dependent Children (i.e. natural or legally adopted) between the age 3 months to 25 years. If the child above 18 years of age is financially independent, he or she shall be ineligible for coverage in the subsequent renewals."
+          }
+        ],
+        "rationale": "According to Clause 3.21, a dependent child is eligible for coverage only if they are between 3 months to 25 years old. Additionally, if the child above 18 years of age is financially independent, they shall be ineligible for coverage in subsequent renewals. Since the child in question is 26 years old, they do not meet the age criteria and are therefore not eligible for coverage.",
+        "confidence_score": 0.98
+      },
+      "confidence_score": 0.98,
+      "decision_rationale": "According to Clause 3.21, a dependent child is eligible for coverage only if they are between 3 months to 25 years old. Additionally, if the child above 18 years of age is financially independent, they shall be ineligible for coverage in subsequent renewals. Since the child in question is 26 years old, they do not meet the age criteria and are therefore not eligible for coverage.",
+      "timestamp": "2025-08-04T19:01:59.444640",
+      "processing_time_ms": 1000
+    },
+    {
+      "query": "Will cataract surgery in the 11th month of the first policy year be covered?",
+      "answer": {
+        "response": "The policy document does not explicitly state that cataract surgery in the 11th month of the first policy year will be covered. However, it mentions that the Company shall indemnify Medically Necessary expenses towards the Coverage mentioned, subject to the terms of coverage, exclusions, conditions, and definitions contained herein.",
+        "suggestions": [],
+        "references": [
+          {
+            "source": "policy1.pdf",
+            "page_number": 1,
+            "line_number": 10,
+            "line_range": [
+              1,
+              71
+            ],
+            "clause_id": "N/A",
+            "clause": "The policy document does not provide specific information about cataract surgery coverage in the 11th month of the first policy year."
+          },
+          {
+            "source": "policy1.pdf",
+            "page_number": 1,
+            "line_number": 20,
+            "line_range": [
+              20,
+              30
+            ],
+            "clause_id": "2. OPERATIVE CLAUSE",
+            "clause": "If during the Policy Period one or more Insured Person (s) is required to be hospitalized for treatment of an Illness or Injury at a Hospital/ Day Care Center, following Medical Advice of a duly qualified Medical Practitioner, the Company shall indemnify Medically Necessary, expenses towards the Coverage mentioned hereunder."
+          }
+        ],
+        "rationale": "The policy document does not explicitly mention cataract surgery coverage in the 11th month of the first policy year. However, the Operative Clause (Clause 2) states that the Company shall indemnify Medically Necessary expenses towards the Coverage mentioned, subject to the terms of coverage, exclusions, conditions, and definitions contained herein. To determine if cataract surgery is covered, we would need to review the specific terms of coverage, exclusions, conditions, and definitions contained in the policy document.",
+        "confidence_score": 0.8
+      },
+      "confidence_score": 0.8,
+      "decision_rationale": "The policy document does not explicitly mention cataract surgery coverage in the 11th month of the first policy year. However, the Operative Clause (Clause 2) states that the Company shall indemnify Medically Necessary expenses towards the Coverage mentioned, subject to the terms of coverage, exclusions, conditions, and definitions contained herein. To determine if cataract surgery is covered, we would need to review the specific terms of coverage, exclusions, conditions, and definitions contained in the policy document.",
+      "timestamp": "2025-08-04T19:02:00.798466",
+      "processing_time_ms": 1293
+    },
+    {
+      "query": "Is robotic surgery for prostate vaporization fully covered in a PPN hospital?",
+      "answer": {
+        "response": "Robotic surgery for prostate vaporization is partially covered in a PPN hospital, subject to sub-limits.",
+        "suggestions": [],
+        "references": [
+          {
+            "source": "Documents\\ICIHLIP22012V012223.pdf",
+            "page_number": 6,
+            "line_number": 1,
+            "line_range": [
+              1,
+              104
+            ],
+            "clause_id": "N/A",
+            "clause": "Robotic surgeries* shall be subject to sub-limits as mentioned under d. benefits covered under the policy Base cover"
+          },
+          {
+            "source": "Documents\\ICIHLIP22012V012223.pdf",
+            "page_number": 6,
+            "line_number": 3,
+            "line_range": [
+              1,
+              104
+            ],
+            "clause_id": "N/A",
+            "clause": "Vaporisation of the prostrate (Green laser treatment or holmium laser treatment )"
+          }
+        ],
+        "rationale": "The provided document lists 'Robotic surgeries*' as a covered treatment, but with sub-limits (Clause on page 6, line 1-104). Additionally, 'Vaporisation of the prostrate (Green laser treatment or holmium laser treatment )' is listed as a covered treatment (Clause on page 6, line 3). However, the document does not explicitly state that robotic surgery for prostate vaporization is fully covered. Therefore, it can be inferred that robotic surgery for prostate vaporization is partially covered, subject to sub-limits.",
+        "confidence_score": 0.9
+      },
+      "confidence_score": 0.9,
+      "decision_rationale": "The provided document lists 'Robotic surgeries*' as a covered treatment, but with sub-limits (Clause on page 6, line 1-104). Additionally, 'Vaporisation of the prostrate (Green laser treatment or holmium laser treatment )' is listed as a covered treatment (Clause on page 6, line 3). However, the document does not explicitly state that robotic surgery for prostate vaporization is fully covered. Therefore, it can be inferred that robotic surgery for prostate vaporization is partially covered, subject to sub-limits.",
+      "timestamp": "2025-08-04T19:02:02.032017",
+      "processing_time_ms": 1193
+    },
+    {
+      "query": "Will cleft palate repair surgery be covered under cosmetic or medically necessary clause?",
+      "answer": {
+        "response": "Cleft palate repair surgery will be covered under the medically necessary clause.",
+        "suggestions": [],
+        "references": [
+          {
+            "source": "Documents\\BAJHLIP23020V012223.pdf",
+            "page_number": 22,
+            "line_number": 10,
+            "line_range": [
+              1,
+              76
+            ],
+            "clause_id": "Clause 8",
+            "clause": "Expenses for cosmetic or plastic surgery or any treatment to change appearance unless for reconstruction following an Accident, Burn(s) or Cancer or as part of Medically Necessary Treatment to remove a direct and immediate health risk to the Insured."
+          }
+        ],
+        "rationale": "The provided context indicates that cleft palate repair surgery is a medically necessary treatment. Clause 8 (Code - Excl08) states that expenses for cosmetic or plastic surgery are not covered unless for reconstruction following an Accident, Burn(s) or Cancer or as part of Medically Necessary Treatment. Since cleft palate repair surgery is a medically necessary treatment, it falls under the exception to Clause 8 and will be covered.",
+        "confidence_score": 0.95
+      },
+      "confidence_score": 0.95,
+      "decision_rationale": "The provided context indicates that cleft palate repair surgery is a medically necessary treatment. Clause 8 (Code - Excl08) states that expenses for cosmetic or plastic surgery are not covered unless for reconstruction following an Accident, Burn(s) or Cancer or as part of Medically Necessary Treatment. Since cleft palate repair surgery is a medically necessary treatment, it falls under the exception to Clause 8 and will be covered.",
+      "timestamp": "2025-08-04T19:02:03.006916",
+      "processing_time_ms": 907
+    },
+    {
+      "query": "Can steam inhaler used at home post-discharge be reimbursed under post-hospitalization expenses?",
+      "answer": {
+        "response": "The policy does not explicitly mention reimbursement for a steam inhaler used at home post-discharge under post-hospitalization expenses.",
+        "suggestions": [],
+        "references": [
+          {
+            "source": "Documents\\BAJHLIP23020V012223.pdf",
+            "page_number": 15,
+            "line_number": 1,
+            "line_range": [
+              1,
+              75
+            ],
+            "clause_id": "N/A",
+            "clause": "The provided context discusses Air Ambulance and Medical Evacuation (Section 8) and Mental Illness Treatment (Section 9) but does not mention steam inhalers or post-hospitalization expenses for home use devices."
+          }
+        ],
+        "rationale": "The context provided (Page 15, Lines 1-75) pertains to specific sections of the policy, namely Air Ambulance + Medical Evacuation (Section 8) and Mental Illness Treatment (Section 9). There is no mention of steam inhalers used at home post-discharge or any coverage for such devices under post-hospitalization expenses. Therefore, based on the given information, it appears that the policy does not explicitly cover steam inhalers used at home post-discharge.",
+        "confidence_score": 0.95
+      },
+      "confidence_score": 0.95,
+      "decision_rationale": "The context provided (Page 15, Lines 1-75) pertains to specific sections of the policy, namely Air Ambulance + Medical Evacuation (Section 8) and Mental Illness Treatment (Section 9). There is no mention of steam inhalers used at home post-discharge or any coverage for such devices under post-hospitalization expenses. Therefore, based on the given information, it appears that the policy does not explicitly cover steam inhalers used at home post-discharge.",
+      "timestamp": "2025-08-04T19:02:03.888552",
+      "processing_time_ms": 849
+    },
+    {
+      "query": "Will the policy cover 3-day inpatient Ayurvedic treatment in a co-located private AYUSH center?",
+      "answer": {
+        "response": "The policy covers 3-day inpatient Ayurvedic treatment in a co-located private AYUSH center.",
+        "suggestions": [],
+        "references": [
+          {
+            "source": "Documents\\ICIHLIP22012V012223.pdf",
+            "page_number": 1,
+            "line_number": 10,
+            "line_range": [
+              10,
+              50
+            ],
+            "clause_id": "AYUSH Hospital",
+            "clause": "AYUSH Hospital is a healthcare facility wherein medical/ surgical/ para-surgical treatment procedures and interventions are carried out by AYUSH Medical practitioner(s) comprising of any of the following: ... c. AYUSH Hospital, standalone or co-located with in-patient healthcare facility of any recognized system of medicine, registered with the local authorities, wherever applicable, and is under the supervision of a qualified registered AYUSH medical practitioner and must comply with the following criterion: i. Having at least 5 in-patient beds"
+          }
+        ],
+        "rationale": "The policy defines 'AYUSH Hospital' as a healthcare facility that includes co-located hospitals with in-patient healthcare facilities. The definition also mentions that the facility must have at least 5 in-patient beds, which would cover a 3-day inpatient treatment. Therefore, the policy covers 3-day inpatient Ayurvedic treatment in a co-located private AYUSH center.",
+        "confidence_score": 0.95
+      },
+      "confidence_score": 0.95,
+      "decision_rationale": "The policy defines 'AYUSH Hospital' as a healthcare facility that includes co-located hospitals with in-patient healthcare facilities. The definition also mentions that the facility must have at least 5 in-patient beds, which would cover a 3-day inpatient treatment. Therefore, the policy covers 3-day inpatient Ayurvedic treatment in a co-located private AYUSH center.",
+      "timestamp": "2025-08-04T19:02:04.869163",
+      "processing_time_ms": 953
+    },
+    {
+      "query": "Are surgical gloves and ECG electrodes used during ICU heart surgery reimbursable?",
+      "answer": {
+        "response": "The provided context does not explicitly mention surgical gloves and ECG electrodes used during ICU heart surgery. However, it lists various exclusions under the policy.",
+        "suggestions": [],
+        "references": [
+          {
+            "source": "Documents\\ICIHLIP22012V012223.pdf",
+            "page_number": 20,
+            "line_number": 1,
+            "line_range": [
+              1,
+              108
+            ],
+            "clause_id": "N/A",
+            "clause": "The provided context is a list of exclusions and specific conditions under the policy, including maternity, hazardous sports, breach of law, and more."
+          }
+        ],
+        "rationale": "The context provided does not directly address the reimbursement of surgical gloves and ECG electrodes used during ICU heart surgery. However, it does list exclusions related to medical equipment and services. Specifically, Clause 7 mentions that expenses incurred on prosthesis, corrective devices, external durable medical equipment of any kind, instruments used in treatment of sleep apnoea syndrome or cost of cochlear implant(s) are excluded unless necessitated by an Accident or required intra-operatively. There is no explicit mention of surgical gloves and ECG electrodes being reimbursable or not.",
+        "confidence_score": 0.8
+      },
+      "confidence_score": 0.8,
+      "decision_rationale": "The context provided does not directly address the reimbursement of surgical gloves and ECG electrodes used during ICU heart surgery. However, it does list exclusions related to medical equipment and services. Specifically, Clause 7 mentions that expenses incurred on prosthesis, corrective devices, external durable medical equipment of any kind, instruments used in treatment of sleep apnoea syndrome or cost of cochlear implant(s) are excluded unless necessitated by an Accident or required intra-operatively. There is no explicit mention of surgical gloves and ECG electrodes being reimbursable or not.",
+      "timestamp": "2025-08-04T19:02:05.809182",
+      "processing_time_ms": 906
+    },
+    {
+      "query": "What happens to the waiting period for pre-existing diseases if sum insured is increased after 2 years?",
+      "answer": {
+        "response": "If the sum insured is increased after 2 years, the waiting period for pre-existing diseases will apply afresh to the extent of the sum insured increase.",
+        "suggestions": [],
+        "references": [
+          {
+            "source": "Documents\\BAJHLIP23020V012223.pdf",
+            "page_number": 20,
+            "line_number": 50,
+            "line_range": [
+              50,
+              75
+            ],
+            "clause_id": "SECTION D.1.a",
+            "clause": "Expenses related to the treatment of a Pre-Existing Disease (PED) and its direct complications shall be excluded until the expiry of 36 months of continuous coverage after the date of inception of the first Global Health Care Policy with Us."
+          },
+          {
+            "source": "Documents\\BAJHLIP23020V012223.pdf",
+            "page_number": 20,
+            "line_number": 60,
+            "line_range": [
+              50,
+              75
+            ],
+            "clause_id": "SECTION D.1.b",
+            "clause": "In case of enhancement of Sum Insured the exclusion shall apply afresh to the extent of Sum Insured increase."
+          }
+        ],
+        "rationale": "According to SECTION D.1.b, if the sum insured is increased, the exclusion for pre-existing diseases shall apply afresh to the extent of the sum insured increase. This implies that the waiting period will reset for the increased amount. The initial waiting period for pre-existing diseases is 36 months (SECTION D.1.a).",
+        "confidence_score": 0.95
+      },
+      "confidence_score": 0.95,
+      "decision_rationale": "According to SECTION D.1.b, if the sum insured is increased, the exclusion for pre-existing diseases shall apply afresh to the extent of the sum insured increase. This implies that the waiting period will reset for the increased amount. The initial waiting period for pre-existing diseases is 36 months (SECTION D.1.a).",
+      "timestamp": "2025-08-04T19:02:06.901729",
+      "processing_time_ms": 1038
+    },
+    {
+      "query": "Will a pre-existing illness declared after 60 months of coverage be rejected?",
+      "answer": {
+        "response": "A pre-existing illness declared after 60 months of coverage will not be rejected if it was declared at the time of application and accepted by the insurer.",
+        "suggestions": [],
+        "references": [
+          {
+            "source": "Documents\\BAJHLIP23020V012223.pdf",
+            "page_number": 20,
+            "line_number": 50,
+            "line_range": [
+              50,
+              75
+            ],
+            "clause_id": "SECTION D) 1) Pre-Existing Diseases ( Code -Excl01) d.",
+            "clause": "Coverage under the Policy after the expiry of 36 months for any Pre-Existing Disease is subject to the same being declared at the time of application and accepted by Insurer."
+          },
+          {
+            "source": "Documents\\BAJHLIP23020V012223.pdf",
+            "page_number": 24,
+            "line_number": 36,
+            "line_range": [
+              36,
+              71
+            ],
+            "clause_id": "SECTION D) 1) Pre-Existing Diseases ( Code -Excl01) d.",
+            "clause": "Coverage under the Policy after the expiry of 36 months for any pre-existing disease is subject to the same being declared at the time of application and accepted by Insurer."
+          }
+        ],
+        "rationale": "According to SECTION D) 1) Pre-Existing Diseases ( Code -Excl01) d. in both pages 20 and 24 of the provided documents, coverage under the Policy after the expiry of 36 months for any Pre-Existing Disease is subject to the same being declared at the time of application and accepted by Insurer. Since 60 months is greater than 36 months, the pre-existing illness declared after 60 months of coverage will not be rejected if it was declared at the time of application and accepted by the insurer.",
+        "confidence_score": 0.95
+      },
+      "confidence_score": 0.95,
+      "decision_rationale": "According to SECTION D) 1) Pre-Existing Diseases ( Code -Excl01) d. in both pages 20 and 24 of the provided documents, coverage under the Policy after the expiry of 36 months for any Pre-Existing Disease is subject to the same being declared at the time of application and accepted by Insurer. Since 60 months is greater than 36 months, the pre-existing illness declared after 60 months of coverage will not be rejected if it was declared at the time of application and accepted by the insurer.",
+      "timestamp": "2025-08-04T19:02:08.594763",
+      "processing_time_ms": 1657
+    },
+    {
+      "query": "How is cumulative bonus adjusted after 4 claim-free years followed by a claim in year 5?",
+      "answer": {
+        "response": "The provided context does not explicitly state how the cumulative bonus is adjusted after 4 claim-free years followed by a claim in year 5.",
+        "suggestions": [],
+        "references": [
+          {
+            "source": "Documents\\policy1.pdf",
+            "page_number": 10,
+            "line_number": 1,
+            "line_range": [
+              1,
+              71
+            ],
+            "clause_id": "N/A",
+            "clause": "The provided context does not contain specific information about cumulative bonus adjustments."
+          }
+        ],
+        "rationale": "The context provided (Arogya Sanjeevani Policy - National) does not explicitly mention the adjustment of cumulative bonus after claim-free years and a subsequent claim. Therefore, it's not possible to provide a specific answer to the query based on the given information.",
+        "confidence_score": 0.0
+      },
+      "confidence_score": 0.0,
+      "decision_rationale": "The context provided (Arogya Sanjeevani Policy - National) does not explicitly mention the adjustment of cumulative bonus after claim-free years and a subsequent claim. Therefore, it's not possible to provide a specific answer to the query based on the given information.",
+      "timestamp": "2025-08-04T19:02:09.412036",
+      "processing_time_ms": 782
+    },
+    {
+      "query": "What documents are required if TPA denies cashless and patient is treated in a non-network hospital?",
+      "answer": {
+        "response": "If TPA denies cashless and the patient is treated in a non-network hospital, the required documents are not explicitly stated. However, as per SECTION E, B. Reimbursement Claims Procedure, the patient or someone claiming on their behalf must inform the insurer in writing within 48 hours of hospitalization.",
+        "suggestions": [],
+        "references": [
+          {
+            "source": "BAJHLIP23020V012223.pdf",
+            "page_number": 36,
+            "line_number": 36,
+            "line_range": [
+              36,
+              74
+            ],
+            "clause_id": "SECTION E",
+            "clause": "GENERAL TERMS AND CLAUSES - STANDARD GENERAL TERMS AND CL AUSES"
+          },
+          {
+            "source": "BAJHLIP23020V012223.pdf",
+            "page_number": 36,
+            "line_number": 50,
+            "line_range": [
+              50,
+              60
+            ],
+            "clause_id": "B. Reimbursement Claims Procedure",
+            "clause": "If Pre -authorisation as per Cashless Claims Procedure above is denied by Us or if treatment is taken in a Hospital other than a Network Hospital or if You do not wish to avail Cashless Facility , then: i. You or someone c laiming on Your behalf must inform Us in writing immediately within48 hours of Hospitalization"
+          }
+        ],
+        "rationale": "The query requires information on the documents required if TPA denies cashless and the patient is treated in a non-network hospital. SECTION E, B. Reimbursement Claims Procedure states that in such cases, the patient or someone claiming on their behalf must inform the insurer in writing within 48 hours of hospitalization. However, it does not explicitly list the required documents.",
+        "confidence_score": 0.8
+      },
+      "confidence_score": 0.8,
+      "decision_rationale": "The query requires information on the documents required if TPA denies cashless and the patient is treated in a non-network hospital. SECTION E, B. Reimbursement Claims Procedure states that in such cases, the patient or someone claiming on their behalf must inform the insurer in writing within 48 hours of hospitalization. However, it does not explicitly list the required documents.",
+      "timestamp": "2025-08-04T19:02:10.686027",
+      "processing_time_ms": 1241
+    },
+    {
+      "query": "What is the arbitration process if insurer disputes claim amount but not liability?",
+      "answer": {
+        "response": "If the insurer disputes the claim amount but not liability, the arbitration process involves referring the dispute to a sole arbitrator appointed in writing by both parties. If the parties cannot agree on a single arbitrator within 30 days, the dispute will be referred to a panel of three arbitrators.",
+        "suggestions": [],
+        "references": [
+          {
+            "source": "Documents\\CHOTGDP23004V012223.pdf",
+            "page_number": 68,
+            "line_number": 17,
+            "line_range": [
+              17,
+              56
+            ],
+            "clause_id": "Clause J.3",
+            "clause": "If any dispute or difference arises between You and Us regarding the amount of claim to be paid under this policy (liability having been admitted by Us), such difference shall independently of all other questions, be referred to the decision of a sole arbitrator to be appointed in writing by You and Us or if You and We cannot agree upon a single arbitrator within 30 days of either of Us opting for arbitration, the same shall be referred to a panel of three arbitrators..."
+          }
+        ],
+        "rationale": "The arbitration process is outlined in Clause J.3 of the document. It states that if there is a dispute regarding the claim amount (with liability admitted), the parties will first attempt to appoint a sole arbitrator. If they cannot agree within 30 days, the dispute will be referred to a panel of three arbitrators. The arbitration will be conducted under the Arbitration and Conciliation Act, 1996.",
+        "confidence_score": 0.95
+      },
+      "confidence_score": 0.95,
+      "decision_rationale": "The arbitration process is outlined in Clause J.3 of the document. It states that if there is a dispute regarding the claim amount (with liability admitted), the parties will first attempt to appoint a sole arbitrator. If they cannot agree within 30 days, the dispute will be referred to a panel of three arbitrators. The arbitration will be conducted under the Arbitration and Conciliation Act, 1996.",
+      "timestamp": "2025-08-04T19:02:11.905584",
+      "processing_time_ms": 1181
+    },
+    {
+      "query": "Who receives claim payment if insured dies after discharge but before claim submission?",
+      "answer": {
+        "response": "The claim payment is made to the insured person's nominees or legal representative if the insured dies after discharge but before claim submission.",
+        "suggestions": [],
+        "references": [
+          {
+            "source": "Documents\\ICIHLIP22012V012223.pdf",
+            "page_number": 21,
+            "line_number": 1,
+            "line_range": [
+              1,
+              108
+            ],
+            "clause_id": "4. Complete Discharge",
+            "clause": "Any payment to the policyholder , insured person or his/ her nominees or his/ her legal representativ e or assignee or to the hospital as the case may be, for any benefit under the Policy shall be a valid discharge towards payment of claim by the Company to the extent of that amount for the particular claim"
+          }
+        ],
+        "rationale": "According to Clause 4. Complete Discharge, any payment made to the insured person's nominees or legal representative for any benefit under the Policy shall be a valid discharge towards payment of claim by the Company. This implies that if the insured dies after discharge but before claim submission, the claim payment will be made to the insured person's nominees or legal representative.",
+        "confidence_score": 0.95
+      },
+      "confidence_score": 0.95,
+      "decision_rationale": "According to Clause 4. Complete Discharge, any payment made to the insured person's nominees or legal representative for any benefit under the Policy shall be a valid discharge towards payment of claim by the Company. This implies that if the insured dies after discharge but before claim submission, the claim payment will be made to the insured person's nominees or legal representative.",
+      "timestamp": "2025-08-04T19:02:12.857018",
+      "processing_time_ms": 913
+    }
+  ]
+}
