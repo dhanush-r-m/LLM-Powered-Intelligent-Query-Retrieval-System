@@ -7,11 +7,6 @@ from datetime import datetime
 import asyncio
 from pathlib import Path
 import PyPDF2
-import docx
-import email
-from email import policy
-from email.parser import BytesParser
-import re
 import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
@@ -20,6 +15,7 @@ from groq import Groq
 import nltk
 from nltk.tokenize import sent_tokenize
 from dotenv import load_dotenv
+import re
 
 load_dotenv()
 
@@ -60,10 +56,10 @@ class QueryResponse:
     processing_time_ms: int
 
 class DocumentProcessor:
-    """Handles processing of legal documents (PDF, DOCX, EML, TXT)."""
+    """Handles processing of legal documents (PDF only)."""
     
     def __init__(self):
-        self.supported_formats = {'.pdf', '.docx', '.eml', '.txt'}
+        self.supported_formats = {'.pdf'}
     
     def is_clause_heading(self, text: str) -> bool:
         """Check if the text is a clause heading using a regex pattern."""
@@ -91,7 +87,6 @@ class DocumentProcessor:
                         start_line = 1
                         for line_num, line in enumerate(lines, 1):
                             if self.is_clause_heading(line):
-                                # Save previous clause
                                 if current_clause_lines:
                                     clause_text = '\n'.join(current_clause_lines)
                                     clause_id = current_clause_id or f"{Path(file_path).stem}_page_{page_num}_lines_{start_line}-{line_num-1}"
@@ -104,13 +99,11 @@ class DocumentProcessor:
                                         document_type="pdf",
                                         metadata={"page_number": page_num + 1, "line_range": (start_line, line_num - 1)}
                                     ))
-                         
                                 current_clause_id = self.extract_clause_id(line)
                                 current_clause_lines = [line.strip()]
                                 start_line = line_num
                             else:
                                 current_clause_lines.append(line.strip())
-                      
                         if current_clause_lines:
                             clause_text = '\n'.join(current_clause_lines)
                             clause_id = current_clause_id or f"{Path(file_path).stem}_page_{page_num}_lines_{start_line}-{len(lines)}"
@@ -127,121 +120,13 @@ class DocumentProcessor:
             logger.error(f"Error processing PDF {file_path}: {e}")
         return chunks
     
-    def process_docx(self, file_path: str) -> List[DocumentChunk]:
-        """Extract text from DOCX files, grouping into clauses with identifiers."""
-        chunks = []
-        try:
-            doc = docx.Document(file_path)
-            current_clause_paras = []
-            current_clause_id = None
-            para_num = 0
-            for para in doc.paragraphs:
-                para_num += 1
-                if para.text.strip():
-                    if self.is_clause_heading(para.text):
-                        if current_clause_paras:
-                            clause_text = '\n'.join(current_clause_paras)
-                            clause_id = current_clause_id or f"{Path(file_path).stem}_para_{para_num}"
-                            chunks.append(DocumentChunk(
-                                content=clause_text,
-                                source_file=file_path,
-                                chunk_id=clause_id,
-                                line_number=para_num,
-                                clause_id=current_clause_id,
-                                document_type="docx",
-                                metadata={"paragraph_number": para_num}
-                            ))
-                        current_clause_id = self.extract_clause_id(para.text)
-                        current_clause_paras = [para.text.strip()]
-                    else:
-                        current_clause_paras.append(para.text.strip())
-            # Add the last clause
-            if current_clause_paras:
-                clause_text = '\n'.join(current_clause_paras)
-                clause_id = current_clause_id or f"{Path(file_path).stem}_para_{para_num}"
-                chunks.append(DocumentChunk(
-                    content=clause_text,
-                    source_file=file_path,
-                    chunk_id=clause_id,
-                    line_number=para_num,
-                    clause_id=current_clause_id,
-                    document_type="docx",
-                    metadata={"paragraph_number": para_num}
-                ))
-        except Exception as e:
-            logger.error(f"Error processing DOCX {file_path}: {e}")
-        return chunks
-    
-    def process_email(self, file_path: str) -> List[DocumentChunk]:
-        """Extract text from email files with line numbers."""
-        chunks = []
-        try:
-            with open(file_path, 'rb') as file:
-                msg = BytesParser(policy=policy.default).parse(file)
-                subject = msg.get('Subject', 'No Subject')
-                body = ""
-                if msg.is_multipart():
-                    for part in msg.walk():
-                        if part.get_content_type() == "text/plain":
-                            body += part.get_content() or ""
-                else:
-                    body = msg.get_content() or ""
-                
-                lines = body.split('\n')
-                for line_num, line in enumerate(lines, 1):
-                    if line.strip():
-                        clause_id = f"{Path(file_path).stem}_email_line_{line_num}"
-                        chunks.append(DocumentChunk(
-                            content=line.strip(),
-                            source_file=file_path,
-                            chunk_id=clause_id,
-                            line_number=line_num,
-                            clause_id=clause_id,
-                            document_type="email",
-                            metadata={"subject": subject}
-                        ))
-        except Exception as e:
-            logger.error(f"Error processing email {file_path}: {e}")
-        return chunks
-    
-    def process_text(self, file_path: str) -> List[DocumentChunk]:
-        """Extract text from TXT files with line numbers."""
-        chunks = []
-        try:
-            with open(file_path, 'r', encoding='utf-8') as f:
-                lines = f.readlines()
-                for line_num, line in enumerate(lines, 1):
-                    if line.strip():
-                        clause_id = f"{Path(file_path).stem}_line_{line_num}"
-                        chunks.append(DocumentChunk(
-                            content=line.strip(),
-                            source_file=file_path,
-                            chunk_id=clause_id,
-                            line_number=line_num,
-                            clause_id=clause_id,
-                            document_type="text",
-                            metadata={}
-                        ))
-        except Exception as e:
-            logger.error(f"Error processing TXT {file_path}: {e}")
-        return chunks
-    
     def process_document(self, file_path: str) -> List[DocumentChunk]:
-        """Process a document based on its file extension."""
+        """Process a document based on its file extension (only PDF)."""
         file_ext = Path(file_path).suffix.lower()
         if file_ext not in self.supported_formats:
             logger.error(f"Unsupported file format: {file_ext}")
             return []
-        
-        if file_ext == '.pdf':
-            return self.process_pdf(file_path)
-        elif file_ext == '.docx':
-            return self.process_docx(file_path)
-        elif file_ext == '.eml':
-            return self.process_email(file_path)
-        elif file_ext == '.txt':
-            return self.process_text(file_path)
-        return []
+        return self.process_pdf(file_path)
 
 class VectorDatabase:
     """Manages vector embeddings and semantic search using FAISS."""
@@ -346,24 +231,18 @@ class LLMProcessor:
         
         for i, result in enumerate(retrieved_chunks):
             chunk = result.chunk
-            if chunk.document_type == "pdf":
-                page_num = chunk.metadata.get("page_number", "N/A")
-                line_range = chunk.metadata.get("line_range", (chunk.line_number, chunk.line_number))
-                chunk_text = f"[Source {i+1}: {chunk.source_file}, Page {page_num}, Lines {line_range[0]}-{line_range[1]}, Clause ID: {chunk.clause_id or 'N/A'}]\n{chunk.content}"
-            elif chunk.document_type == "docx":
-                para_num = chunk.metadata.get("paragraph_number", chunk.line_number)
-                chunk_text = f"[Source {i+1}: {chunk.source_file}, Paragraph {para_num}, Clause ID: {chunk.clause_id or 'N/A'}]\n{chunk.content}"
-            else:
-                chunk_text = f"[Source {i+1}: {chunk.source_file}, Line {chunk.line_number}, Clause ID: {chunk.clause_id or 'N/A'}]\n{chunk.content}"
+            page_num = chunk.metadata.get("page_number", "N/A")
+            line_range = chunk.metadata.get("line_range", (chunk.line_number, chunk.line_number))
+            chunk_text = f"[Source {i+1}: {chunk.source_file}, Page {page_num}, Lines {line_range[0]}-{line_range[1]}, Clause ID: {chunk.clause_id or 'N/A'}]\n{chunk.content}"
             if len(''.join(context_parts)) + len(chunk_text) > max_context_length:
                 break
             context_parts.append(chunk_text)
             references.append({
                 "source": chunk.source_file,
-                "page_number": chunk.metadata.get("page_number", None),
-                "line_number": chunk.line_number,  # Start line
-                "line_range": chunk.metadata.get("line_range", (chunk.line_number, chunk.line_number)),
-                "clause_id": chunk.clause_id,
+                "page_number": page_num,
+                "line_number": chunk.line_number,
+                "line_range": line_range,
+                "clause_id": chunk.clause_id or "N/A",
                 "clause": chunk.content[:100] + "..." if len(chunk.content) > 100 else chunk.content,
                 "relevance_score": result.relevance_score,
                 "weight": result.weight
@@ -371,7 +250,7 @@ class LLMProcessor:
         
         context = "\n\n".join(context_parts)
         
-        prompt = f"""You are an expert legal document analyst. Provide a concise, accurate answer to the query based only on the provided context. If the query asks for specific details such as durations, locations, or conditions, explicitly extract and include those details from the clauses (e.g., exact duration like '30 days' or location like 'New York'). Include suggestions only if the query explicitly asks for them. Return a structured JSON response with the answer, suggestions (if applicable), detailed references to specific clauses including document name, page number (if applicable), line numbers, and clause ID (e.g., 'Clause a.i.2'), and a clear rationale.
+        prompt = f"""You are an expert legal document analyst and a friendly, knowledgeable assistant. Please provide a concise, accurate, and conversational answer to the query based solely on the provided context. If the query asks for specific details like durations, locations, or conditions, extract and include those details directly from the clauses (e.g., '30 days' or 'New York'). When answering, explicitly reference the specific clause, paragraph, page, section, and line numbers from the document where the information is found. Include suggestions only if the query explicitly requests them. If the query is unrelated to the content in the provided PDF, respond in a friendly, human-like way, explaining that it’s outside my knowledge base, such as: "I’m sorry, but that topic doesn’t seem to be covered in the document I have. I’d be happy to assist with something from the PDF if you’d like!" Return a structured JSON response with the answer, suggestions (if applicable), detailed references to specific clauses (including document name, page number, line numbers, and clause ID like 'Section 1.1(a)'), and a clear rationale.
 
 Query: {query}
 
@@ -379,23 +258,24 @@ Context: {context}
 
 Return a JSON object in this format:
 {{
-    "response": "Concise answer with specific details if applicable",
+    "response": "Friendly, concise answer with specific details and references if applicable",
     "suggestions": ["Suggestion 1"] | [],
     "references": [
-        {{"source": "file_path", "page_number": 1, "line_number": 10, "line_range": [10, 15], "clause_id": "Clause a.i.2", "clause": "Clause text snippet"}}
+        {{"source": "file_path", "page_number": 1, "line_number": 10, "line_range": [10, 15], "clause_id": "Section 1.1(a)", "clause": "Clause text snippet"}}
     ],
-    "rationale": "Explanation citing specific clauses with clause IDs",
+    "rationale": "Clear explanation citing specific clauses with clause IDs",
     "confidence_score": 0.95
 }}
 
 Guidelines:
-- Answer must be concise and directly address the query.
-- Only use information from the context; do not hallucinate.
-- Extract and state specific durations (e.g., '6 months') or locations (e.g., 'London') if mentioned in the query and present in the context.
-- Include detailed references with document name, page number (for PDFs), line range, and clause ID.
+- Keep the answer concise, conversational, and directly tied to the query.
+- Use only the provided context; do not make up information.
+- Extract and mention specific details (e.g., '6 months' or 'London') if relevant and present in the context.
+- Always include detailed references with document name, page number, line range, and clause ID in both the response and references field.
 - Cite clauses using their clause_id (e.g., 'Section 1.1(a)') in the rationale and references.
-- Assign confidence score (0.0-1.0) based on information clarity and completeness.
-- If information is insufficient, state so explicitly in the response and rationale.
+- Assign a confidence score (0.0-1.0) based on the clarity and completeness of the information.
+- If the information is insufficient, say so clearly in the response and rationale.
+- For queries outside the context, provide a polite, human-like explanation.
 
 JSON Response:"""
         
@@ -418,10 +298,10 @@ JSON Response:"""
                     llm_result = json.loads(json_match.group())
                 else:
                     llm_result = {
-                        "response": "Error: Could not parse LLM response",
+                        "response": "Oops, I couldn’t process that properly!",
                         "suggestions": [],
                         "references": [],
-                        "rationale": "Invalid JSON response from LLM",
+                        "rationale": "Invalid JSON response from the system",
                         "confidence_score": 0.1
                     }
             
@@ -448,7 +328,7 @@ JSON Response:"""
             return QueryResponse(
                 query=query,
                 answer={
-                    "response": "Error processing query",
+                    "response": "Sorry, something went wrong while processing your query!",
                     "suggestions": [],
                     "references": references,
                     "rationale": f"Error: {str(e)}",
@@ -525,9 +405,8 @@ async def main():
     
     system = IntelligentQuerySystem(groq_api_key=groq_api_key, cache_dir="./query_system_cache")
     
-    # Scan the Documents folder for supported files
     documents_dir = Path("Documents")
-    supported_exts = {'.pdf', '.docx', '.eml', '.txt'}
+    supported_exts = {'.pdf'}
     document_paths = [
         str(path) for path in documents_dir.rglob("*")
         if path.suffix.lower() in supported_exts
@@ -535,29 +414,30 @@ async def main():
     
     valid_paths = [path for path in document_paths if os.path.exists(path)]
     if not valid_paths:
-        print("No valid document paths provided. Please check file paths.")
+        print("No valid PDF document paths provided. Please check file paths.")
         return
     
     print("Building knowledge base...")
     await system.build_knowledge_base(valid_paths)
     
     sample_queries = [
-    "Does the policy cover cataract operation and what is the limit if the sum insured is ₹1,00,000?",
-    "Does the policy cover 23-hour oral chemotherapy under day care treatment?",
-    "Is a 26-year-old unemployed dependent child eligible for coverage?",
-    "Will cataract surgery in the 11th month of the first policy year be covered?",
-    "Is robotic surgery for prostate vaporization fully covered in a PPN hospital?",
-    "Will cleft palate repair surgery be covered under cosmetic or medically necessary clause?",
-    "Can steam inhaler used at home post-discharge be reimbursed under post-hospitalization expenses?",
-    "Will the policy cover 3-day inpatient Ayurvedic treatment in a co-located private AYUSH center?",
-    "Are surgical gloves and ECG electrodes used during ICU heart surgery reimbursable?",
-    "What happens to the waiting period for pre-existing diseases if sum insured is increased after 2 years?",
-    "Will a pre-existing illness declared after 60 months of coverage be rejected?",
-    "How is cumulative bonus adjusted after 4 claim-free years followed by a claim in year 5?",
-    "What documents are required if TPA denies cashless and patient is treated in a non-network hospital?",
-    "What is the arbitration process if insurer disputes claim amount but not liability?",
-    "Who receives claim payment if insured dies after discharge but before claim submission?"
-]
+        "Does the policy cover cataract operation and what is the limit if the sum insured is ₹1,00,000?",
+        "Does the policy cover 23-hour oral chemotherapy under day care treatment?",
+        "Is a 26-year-old unemployed dependent child eligible for coverage?",
+        "Will cataract surgery in the 11th month of the first policy year be covered?",
+        "Is robotic surgery for prostate vaporization fully covered in a PPN hospital?",
+        "Will cleft palate repair surgery be covered under cosmetic or medically necessary clause?",
+        "Can steam inhaler used at home post-discharge be reimbursed under post-hospitalization expenses?",
+        "Will the policy cover 3-day inpatient Ayurvedic treatment in a co-located private AYUSH center?",
+        "Are surgical gloves and ECG electrodes used during ICU heart surgery reimbursable?",
+        "What happens to the waiting period for pre-existing diseases if sum insured is increased after 2 years?",
+        "Will a pre-existing illness declared after 60 months of coverage be rejected?",
+        "How is cumulative bonus adjusted after 4 claim-free years followed by a claim in year 5?",
+        "What documents are required if TPA denies cashless and patient is treated in a non-network hospital?",
+        "What is the arbitration process if insurer disputes claim amount but not liability?",
+        "Who receives claim payment if insured dies after discharge but before claim submission?",
+        "What’s the weather like today in New York?"
+    ]
     
     print("\nProcessing queries...")
     responses = await system.batch_query(sample_queries)
