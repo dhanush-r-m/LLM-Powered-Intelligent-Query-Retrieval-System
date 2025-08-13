@@ -1,15 +1,67 @@
-from fastapi import FastAPI, HTTPException, UploadFile, File
+from fastapi import FastAPI, HTTPException, UploadFile, File, Request
 from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 from typing import List, Optional
 import uvicorn
 import os
 from pathlib import Path
+import json
+import asyncio
+from datetime import datetime
+from dotenv import load_dotenv
+import aiofiles
+
+from intelligent_query_system import IntelligentQuerySystem
 
 
+
+load_dotenv()
+
+groq_api_key = os.getenv("GROQ_API_KEY")
+if not groq_api_key:
+    raise RuntimeError("GROQ_API_KEY not found in environment variables. Please set it in .env")
 
 app = FastAPI(title="Intelligent Query-Retrieval System", version="1.0.0")
+
+# Enable CORS for local dev of SPA
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Paths
+DOCUMENTS_DIR = Path("Documents")
+DOCUMENTS_DIR.mkdir(exist_ok=True)
+CACHE_DIR = Path("query_system_cache")
+CACHE_DIR.mkdir(exist_ok=True)
+VECTOR_INDEX_DIR = CACHE_DIR / "vector_index"
+
+# Core engine
+query_system = IntelligentQuerySystem(groq_api_key=groq_api_key, cache_dir=str(CACHE_DIR))
+
+# Simple in-process flag to prevent concurrent index builds
+index_build_lock = asyncio.Lock()
+
+def index_exists() -> bool:
+    index_path = VECTOR_INDEX_DIR / "index.faiss"
+    chunks_path = VECTOR_INDEX_DIR / "chunks.pkl"
+    embeddings_path = VECTOR_INDEX_DIR / "embeddings.pkl"
+    return index_path.exists() and chunks_path.exists() and embeddings_path.exists()
+
+async def ensure_index_loaded():
+    # If index already present in memory, nothing to do
+    if getattr(query_system.vector_db, "index", None) is not None:
+        return
+    # Otherwise, try loading from disk
+    if index_exists():
+        query_system.load_knowledge_base(str(VECTOR_INDEX_DIR))
+    else:
+        raise HTTPException(status_code=400, detail="No knowledge base found. Upload PDFs to build the index.")
 
 
 
@@ -32,71 +84,87 @@ async def root():
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Intelligent Query-Retrieval System</title>
         <style>
+            :root { --bg: #f5f7ff; --card: rgba(255,255,255,0.85); --text: #111827; --muted:#6b7280; --primary:#6366f1; }
+            body.dark { --bg: #0b1020; --card: rgba(17,24,39,0.7); --text: #e5e7eb; --muted:#9ca3af; --primary:#818cf8; }
             body {
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                 max-width: 1200px;
                 margin: 0 auto;
                 padding: 20px;
-                background-color: #f5f5f5;
+                background: radial-gradient(1000px 500px at 20% 0%, #dbeafe, transparent),
+                            radial-gradient(800px 400px at 80% 0%, #f5d0fe, transparent), var(--bg);
+                color: var(--text);
+                transition: background 0.3s ease, color 0.3s ease;
             }
             .container {
-                background: white;
-                border-radius: 10px;
+                background: var(--card);
+                border-radius: 16px;
                 padding: 30px;
-                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                box-shadow: 0 10px 30px rgba(2,6,23,0.15);
                 margin-bottom: 20px;
+                backdrop-filter: blur(8px);
             }
             h1 {
-                color: #333;
                 text-align: center;
-                margin-bottom: 30px;
+                margin-bottom: 20px;
+                font-weight: 800;
+                background: linear-gradient(90deg, #6366f1, #22d3ee, #a78bfa);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
             }
+            .brand { display:flex; align-items:center; justify-content:center; gap:14px; }
+            .brand h1 { margin:0; line-height:1.2; padding-bottom:4px; display:inline-block; }
+            .logo { width:48px; height:48px; filter: drop-shadow(0 4px 10px rgba(2,6,23,0.35)); border-radius:12px; }
             .query-section {
                 margin-bottom: 30px;
             }
             .query-input {
                 width: 100%;
                 padding: 15px;
-                border: 2px solid #ddd;
+                border: 2px solid #d1d5db;
                 border-radius: 8px;
                 font-size: 16px;
                 margin-bottom: 15px;
+                background: transparent;
+                color: var(--text);
             }
             .btn {
-                background-color: #007bff;
-                color: white;
+                background: linear-gradient(135deg, var(--primary), #22d3ee);
+                color: #fff;
                 padding: 12px 24px;
                 border: none;
                 border-radius: 6px;
                 cursor: pointer;
                 font-size: 16px;
                 margin-right: 10px;
+                box-shadow: 0 6px 14px rgba(99,102,241,0.35);
             }
             .btn:hover {
-                background-color: #0056b3;
+                filter: brightness(1.05);
             }
             .btn-secondary {
-                background-color: #6c757d;
+                background: #374151;
             }
             .btn-secondary:hover {
-                background-color: #545b62;
+                background-color: #1f2937;
             }
             .response-section {
                 margin-top: 20px;
                 padding: 20px;
-                background-color: #f8f9fa;
+                background-color: rgba(203,213,225,0.15);
                 border-radius: 8px;
                 display: none;
             }
             .source {
-                background: white;
+                background: var(--card);
                 padding: 15px;
                 margin: 10px 0;
-                border-left: 4px solid #007bff;
+                border-left: 4px solid var(--primary);
                 border-radius: 4px;
             }
             .source-score {
-                color: #666;
+                color: var(--muted);
                 font-size: 12px;
                 float: right;
             }
@@ -106,7 +174,7 @@ async def root():
                 padding: 20px;
             }
             .document-upload {
-                border: 2px dashed #ddd;
+                border: 2px dashed #94a3b8;
                 border-radius: 8px;
                 padding: 20px;
                 text-align: center;
@@ -115,16 +183,20 @@ async def root():
             .tabs {
                 display: flex;
                 margin-bottom: 20px;
-                border-bottom: 1px solid #ddd;
+                border-bottom: 1px solid #cbd5e1;
+                gap: 8px;
             }
             .tab {
                 padding: 10px 20px;
                 cursor: pointer;
                 border-bottom: 2px solid transparent;
+                border-radius: 8px 8px 0 0;
+                color: var(--muted);
             }
             .tab.active {
-                border-bottom-color: #007bff;
-                color: #007bff;
+                border-bottom-color: var(--primary);
+                color: var(--text);
+                font-weight: 600;
             }
             .tab-content {
                 display: none;
@@ -132,16 +204,43 @@ async def root():
             .tab-content.active {
                 display: block;
             }
+            .topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom: 10px; }
         </style>
     </head>
     <body>
         <div class="container">
-            <h1>🤖 Intelligent Query-Retrieval System</h1>
-            
+            <div class="brand">
+                <svg class="logo" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#6366f1"/>
+                            <stop offset="50%" stop-color="#06b6d4"/>
+                            <stop offset="100%" stop-color="#a78bfa"/>
+                        </linearGradient>
+                        <linearGradient id="lg2" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+                            <stop offset="100%" stop-color="#ffffff" stop-opacity="0.7"/>
+                        </linearGradient>
+                    </defs>
+                    <rect x="8" y="14" width="80" height="60" rx="18" fill="url(#lg1)"/>
+                    <rect x="8" y="14" width="80" height="60" rx="18" fill="#000" opacity="0.08"/>
+                    <circle cx="34" cy="42" r="8" fill="url(#lg2)"/>
+                    <circle cx="62" cy="42" r="8" fill="url(#lg2)"/>
+                    <rect x="32" y="56" width="32" height="6" rx="3" fill="#ffffffcc"/>
+                    <rect x="46" y="6" width="4" height="10" rx="2" fill="url(#lg1)"/>
+                    <circle cx="24" cy="18" r="4" fill="url(#lg1)"/>
+                    <circle cx="72" cy="18" r="4" fill="url(#lg1)"/>
+                </svg>
+                <h1>Intelligent Query-Retrieval System</h1>
+            </div>
+            <div class="topbar">
+                <div></div>
+                <button id="themeToggle" class="btn btn-secondary" onclick="toggleTheme()">Toggle Theme</button>
+            </div>
             <div class="tabs">
-                <div class="tab active" onclick="showTab('query')">Query</div>
-                <div class="tab" onclick="showTab('documents')">Add Documents</div>
-                <div class="tab" onclick="showTab('history')">History</div>
+                <div class="tab active" onclick="showTab('query', this)">Query</div>
+                <div class="tab" onclick="showTab('documents', this)">Add Documents</div>
+                <div class="tab" onclick="showTab('history', this)">History</div>
             </div>
             
             <!-- Query Tab -->
@@ -171,14 +270,12 @@ async def root():
             <!-- Documents Tab -->
             <div id="documents-tab" class="tab-content">
                 <div class="document-upload">
-                    <h3>Add Documents to Knowledge Base</h3>
-                    <textarea id="documentText" 
-                              placeholder="Paste your documents here..." 
-                              style="width: 100%; height: 200px; padding: 10px; border: 1px solid #ddd; border-radius: 4px;"></textarea>
-                    <br><br>
-                    <button class="btn" onclick="addDocument()">Add Document</button>
+                    <h3>Add PDFs to Knowledge Base</h3>
+                    <input type="file" id="pdfFiles" accept="application/pdf" multiple />
+                    <p style="color:#666; font-size: 13px;">Only PDF files are supported.</p>
+                    <button class="btn" onclick="uploadPDFs()">Upload & Build Index</button>
                 </div>
-                
+
                 <div id="documentStatus"></div>
             </div>
             
@@ -192,7 +289,7 @@ async def root():
         </div>
 
         <script>
-            function showTab(tabName) {
+            function showTab(tabName, el) {
                 // Hide all tab contents
                 document.querySelectorAll('.tab-content').forEach(content => {
                     content.classList.remove('active');
@@ -207,7 +304,9 @@ async def root():
                 document.getElementById(tabName + '-tab').classList.add('active');
                 
                 // Add active class to clicked tab
-                event.target.classList.add('active');
+                if (el) { el.classList.add('active'); }
+
+                if (tabName === 'history') { loadHistory(); }
             }
             
             function handleKeyPress(event) {
@@ -265,7 +364,6 @@ async def root():
                         const sourceDiv = document.createElement('div');
                         sourceDiv.className = 'source';
                         sourceDiv.innerHTML = `
-                            <div class="source-score">Score: ${(source.score * 100).toFixed(1)}%</div>
                             <p>${source.content}</p>
                             <small>Source: ${source.metadata.filename || 'Unknown'}</small>
                         `;
@@ -284,37 +382,37 @@ async def root():
                 document.getElementById('loading').style.display = 'none';
             }
             
-            async function addDocument() {
-                const text = document.getElementById('documentText').value.trim();
-                if (!text) {
-                    alert('Please enter some text');
+            async function uploadPDFs() {
+                const input = document.getElementById('pdfFiles');
+                if (!input.files || input.files.length === 0) {
+                    alert('Please select one or more PDF files');
                     return;
                 }
-                
+
+                const formData = new FormData();
+                for (let i = 0; i < input.files.length; i++) {
+                    formData.append('files', input.files[i]);
+                }
+
+                document.getElementById('documentStatus').innerHTML = '<div style="padding: 10px;">⏳ Uploading and building index...</div>';
+
                 try {
-                    const response = await fetch('/add-documents', {
+                    const response = await fetch('/upload-pdf', {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            texts: [text],
-                            metadatas: [{"source": "user_input", "added_via": "web_interface"}]
-                        })
+                        body: formData
                     });
-                    
                     const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(data.detail || 'Upload failed');
+                    }
+
                     document.getElementById('documentStatus').innerHTML = 
-                        '<div style="color: green; padding: 10px;">✅ Document added successfully!</div>';
-                    document.getElementById('documentText').value = '';
-                    
-                    setTimeout(() => {
-                        document.getElementById('documentStatus').innerHTML = '';
-                    }, 3000);
-                    
+                        '<div style="color: green; padding: 10px;">✅ ' + (data.message || 'Index built successfully!') + '</div>';
+                    input.value = '';
                 } catch (error) {
                     document.getElementById('documentStatus').innerHTML = 
-                        '<div style="color: red; padding: 10px;">❌ Error adding document: ' + error.message + '</div>';
+                        '<div style="color: red; padding: 10px;">❌ Error: ' + error.message + '</div>';
                 }
             }
             
@@ -336,7 +434,7 @@ async def root():
                         historyItem.className = 'source';
                         historyItem.innerHTML = `
                             <p><strong>Q${index + 1}:</strong> ${item.question}</p>
-                            <p><strong>A:</strong> ${item.response}</p>
+                            <p><strong>A:</strong> ${item.answer || item.response || ''}</p>
                             <small>Time: ${new Date(item.timestamp).toLocaleString()}</small>
                         `;
                         historyContent.appendChild(historyItem);
@@ -355,38 +453,120 @@ async def root():
                     alert('Error clearing history: ' + error.message);
                 }
             }
+            // Theme handling
+            (function initTheme(){
+                try {
+                    const saved = localStorage.getItem('theme');
+                    if (saved === 'dark') document.body.classList.add('dark');
+                    else if (!saved) {
+                        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                            document.body.classList.add('dark');
+                        }
+                    }
+                } catch(e) {}
+            })();
+            function toggleTheme(){
+                document.body.classList.toggle('dark');
+                try { localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light'); } catch(e) {}
+            }
         </script>
     </body>
     </html>
     """
 
 @app.post("/query")
-async def query_documents(request: QueryRequest):
-    """Query the retrieval system"""
+async def query_documents(request: QueryRequest, raw_request: Request):
+    """Query the retrieval system using the built knowledge base"""
     try:
-        return {
-            "question": request.question,
-            "response": f"This is a mock response for: {request.question}. Please integrate with the actual IntelligentRetrieval class.",
-            "sources": [
-                {
-                    "content": f"Sample relevant content for {request.question}...",
-                    "score": 0.85,
-                    "metadata": {"filename": "sample.txt"}
+        await ensure_index_loaded()
+
+        # Execute query
+        response = query_system.query(request.question, k=int(request.n_results or 5))
+
+        # Transform references for UI
+        sources = []
+        for ref in response.answer.get("references", []):
+            sources.append({
+                "content": ref.get("clause", ""),
+                "score": ref.get("relevance_score", 0.0),
+                "metadata": {
+                    "filename": Path(ref.get("source", "")).name or "Unknown",
+                    "page_number": ref.get("page_number"),
+                    "line_range": ref.get("line_range"),
+                    "clause_id": ref.get("clause_id")
                 }
-            ],
-            "timestamp": "2024-01-01T12:00:00"
+            })
+
+        result = {
+            "question": response.query,
+            "response": response.answer.get("response", ""),
+            "sources": sources,
+            "timestamp": response.timestamp,
+            "confidence": response.answer.get("confidence_score", 0.0),
         }
-        
+
+        # Append to query log
+        log_entry = {
+            "timestamp": response.timestamp,
+            "client_ip": raw_request.client.host if raw_request and raw_request.client else "unknown",
+            "question": response.query,
+            "answer": response.answer.get("response", ""),
+            "confidence": response.answer.get("confidence_score", 0.0),
+            "processing_time_ms": response.processing_time_ms,
+        }
+        try:
+            log_path = Path("query_log.json")
+            existing: List[dict] = []
+            if log_path.exists():
+                with open(log_path, "r", encoding="utf-8") as f:
+                    existing = json.load(f)
+            existing.append(log_entry)
+            with open(log_path, "w", encoding="utf-8") as f:
+                json.dump(existing, f, indent=2)
+        except Exception:
+            # Non-fatal logging failure
+            pass
+
+        return result
+
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/add-documents")
-async def add_documents(request: DocumentRequest):
-    """Add documents to the knowledge base"""
+# Serve built SPA if present (frontend/dist)
+FRONTEND_DIST = Path(__file__).parent / 'frontend' / 'dist'
+if FRONTEND_DIST.exists():
+    app.mount("/app", StaticFiles(directory=str(FRONTEND_DIST), html=True), name="app")
+
+@app.post("/upload-pdf")
+async def upload_pdf(files: List[UploadFile] = File(...)):
+    """Upload one or more PDFs and rebuild the knowledge base index"""
+    if not files:
+        raise HTTPException(status_code=400, detail="No files uploaded")
+
+    saved_paths: List[str] = []
     try:
-        return {"message": f"Added {len(request.texts)} documents successfully (mock)"}
-        
-           
+        # Save uploaded PDFs
+        for f in files:
+            if not f.filename.lower().endswith(".pdf"):
+                raise HTTPException(status_code=400, detail=f"Unsupported file type for {f.filename}. Only PDFs are allowed.")
+            destination = DOCUMENTS_DIR / f.filename
+            async with aiofiles.open(destination, "wb") as out_file:
+                content = await f.read()
+                await out_file.write(content)
+            saved_paths.append(str(destination))
+
+        # Build index with ALL PDFs under Documents (guard against concurrent builds)
+        async with index_build_lock:
+            all_pdf_paths = [str(p) for p in DOCUMENTS_DIR.rglob("*.pdf")]
+            if not all_pdf_paths:
+                raise HTTPException(status_code=400, detail="No PDFs found after upload")
+            await query_system.build_knowledge_base(all_pdf_paths, save_index=True)
+
+        return {"message": f"Uploaded {len(saved_paths)} PDF(s) and built index from {len(all_pdf_paths)} document(s) successfully."}
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -394,7 +574,13 @@ async def add_documents(request: DocumentRequest):
 async def get_history():
     """Get query history"""
     try:
-        return []
+        log_path = Path("query_log.json")
+        if not log_path.exists():
+            return []
+        with open(log_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        # return the last 50 entries
+        return data[-50:]
         
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -403,7 +589,11 @@ async def get_history():
 async def clear_history():
     """Clear query history"""
     try:
-        return {"message": "History cleared (mock)"}
+        log_path = Path("query_log.json")
+        if log_path.exists():
+            with open(log_path, "w", encoding="utf-8") as f:
+                json.dump([], f)
+        return {"message": "History cleared"}
         
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

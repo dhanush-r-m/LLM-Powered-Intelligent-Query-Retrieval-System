@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.55);
+}
+
+body {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+.glass-card {
+  @apply bg-white/60 dark:bg-white/5 backdrop-blur rounded-2xl shadow-glass p-6;
+}
+
+.animate-progress {
+  position: relative;
+  width: 30%;
+  animation: progress 1.2s ease-in-out infinite;
+}
+
+@keyframes progress {
+  0% { transform: translateX(-100%); width: 20%; }
+  50% { transform: translateX(50%); width: 40%; }
+  100% { transform: translateX(300%); width: 20%; }
+}
+
+.dots::after {
+  content: '…';
+  animation: dotty steps(1,end) 1.2s infinite;
+}
+@keyframes dotty {
+  0% { content: ''; }
+  33% { content: '.'; }
+  66% { content: '..'; }
+  100% { content: '...'; }
+}
+
+/* line clamp utility for preview text */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
