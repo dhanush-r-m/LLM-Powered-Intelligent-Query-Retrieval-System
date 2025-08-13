@@ -9,7 +9,6 @@ from pathlib import Path
 import PyPDF2
 import faiss
 import numpy as np
-from sentence_transformers import SentenceTransformer
 import pickle
 from groq import Groq
 import nltk
@@ -132,7 +131,8 @@ class VectorDatabase:
     """Manages vector embeddings and semantic search using FAISS."""
     
     def __init__(self, embedding_model: str = "all-MiniLM-L6-v2"):
-        self.embedding_model = SentenceTransformer(embedding_model)
+        self.embedding_model_name = embedding_model
+        self.embedding_model = None
         self.index = None
         self.chunks = []
         self.embeddings = None
@@ -142,8 +142,16 @@ class VectorDatabase:
             "liability", "obligation", "warranty", "indemnity"
         ]
     
+    def ensure_embedding_model_loaded(self):
+        """Lazily load the SentenceTransformer to avoid slow imports at server startup."""
+        if self.embedding_model is None:
+            # Local import to defer heavy dependency loading until needed
+            from sentence_transformers import SentenceTransformer
+            self.embedding_model = SentenceTransformer(self.embedding_model_name)
+    
     def create_embeddings(self, chunks: List[DocumentChunk]) -> np.ndarray:
         """Create embeddings for document chunks."""
+        self.ensure_embedding_model_loaded()
         texts = [chunk.content for chunk in chunks]
         embeddings = self.embedding_model.encode(texts, show_progress_bar=True)
         return embeddings
@@ -177,6 +185,7 @@ class VectorDatabase:
         if self.index is None:
             raise ValueError("Index not built. Call build_index() first.")
         
+        self.ensure_embedding_model_loaded()
         query_embedding = self.embedding_model.encode([query])
         faiss.normalize_L2(query_embedding)
         
@@ -216,10 +225,44 @@ class VectorDatabase:
 class LLMProcessor:
     """Handles LLM interactions for clause extraction and response generation."""
     
-    def __init__(self, api_key: str, model: str = "meta-llama/llama-4-scout-17b-16e-instruct"):
+    def __init__(self, api_key: str, model: Optional[str] = None):
         self.client = Groq(api_key=api_key)
-        self.model = model
+        # Prefer env override, then provided param, then a widely available Groq model
+        self.model = os.getenv("GROQ_MODEL", model or "llama3-8b-8192")
         self.max_tokens = 8192
+
+    @staticmethod
+    def _repair_and_parse_json(raw_text: str) -> Dict[str, Any]:
+        """Best-effort JSON extraction/repair for occasionally-invalid LLM outputs."""
+        # 1) Try direct parse
+        try:
+            return json.loads(raw_text)
+        except Exception:
+            pass
+
+        # 2) Extract the first JSON object-looking block
+        match = re.search(r"\{.*\}", raw_text, re.DOTALL)
+        if match:
+            candidate = match.group(0)
+            # Normalize smart quotes
+            candidate = candidate.replace("“", '"').replace("”", '"').replace("’", "'")
+            # Escape stray backslashes not part of a valid JSON escape
+            candidate = re.sub(r"(?<!\\)\\(?![\\\"/bfnrtu])", r"\\\\", candidate)
+            # Remove trailing commas before closing } or ]
+            candidate = re.sub(r",\s*([}\]])", r"\\1", candidate)
+            try:
+                return json.loads(candidate)
+            except Exception:
+                pass
+
+        # 3) Fallback minimal structure
+        return {
+            "response": "Unable to parse model output into structured JSON.",
+            "suggestions": [],
+            "references": [],
+            "rationale": "Invalid JSON returned by model",
+            "confidence_score": 0.1,
+        }
     
     def generate_response(self, query: str, retrieved_chunks: List[RetrievalResult]) -> QueryResponse:
         """Generate structured JSON response with detailed references and specific details."""
@@ -289,21 +332,7 @@ JSON Response:"""
             )
             
             content = response.choices[0].message.content.strip()
-            
-            try:
-                llm_result = json.loads(content)
-            except json.JSONDecodeError:
-                json_match = re.search(r'\{.*\}', content, re.DOTALL)
-                if json_match:
-                    llm_result = json.loads(json_match.group())
-                else:
-                    llm_result = {
-                        "response": "Oops, I couldn’t process that properly!",
-                        "suggestions": [],
-                        "references": [],
-                        "rationale": "Invalid JSON response from the system",
-                        "confidence_score": 0.1
-                    }
+            llm_result = self._repair_and_parse_json(content)
             
             processing_time = int((datetime.now() - start_time).total_seconds() * 1000)
             
@@ -325,17 +354,22 @@ JSON Response:"""
         except Exception as e:
             logger.error(f"Error generating Groq LLM response: {e}")
             processing_time = int((datetime.now() - start_time).total_seconds() * 1000)
+            # Friendly fallback when LLM call fails
+            fallback_response = (
+                "I’m sorry, I couldn’t complete the analysis due to an internal error. "
+                "If you’re asking about something outside the uploaded documents, please upload a PDF that contains that information or try another query."
+            )
             return QueryResponse(
                 query=query,
                 answer={
-                    "response": "Sorry, something went wrong while processing your query!",
+                    "response": fallback_response,
                     "suggestions": [],
                     "references": references,
-                    "rationale": f"Error: {str(e)}",
+                    "rationale": f"LLM error: {str(e)}",
                     "confidence_score": 0.0
                 },
                 confidence_score=0.0,
-                decision_rationale=f"Error: {str(e)}",
+                decision_rationale=f"LLM error: {str(e)}",
                 timestamp=datetime.now().isoformat(),
                 processing_time_ms=processing_time
             )
@@ -381,10 +415,10 @@ class IntelligentQuerySystem:
         self.vector_db.load_index(index_path)
         logger.info("Knowledge base loaded successfully")
     
-    def query(self, query_text: str) -> QueryResponse:
+    def query(self, query_text: str, k: int = 5) -> QueryResponse:
         """Process a query and return structured JSON response."""
         logger.info(f"Processing query: {query_text}")
-        retrieved_results = self.vector_db.search(query_text, k=5)
+        retrieved_results = self.vector_db.search(query_text, k=k)
         response = self.llm_processor.generate_response(query_text, retrieved_results)
         return response
     

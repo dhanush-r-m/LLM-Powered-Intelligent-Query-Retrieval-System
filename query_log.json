@@ -1722,5 +1722,125 @@
     "answer": "There is no specific information on sub-limits for room rent and ICU charges for Plan A in the provided context. The document appears to be a general policy document outlining definitions and terms related to the National Parivar Mediclaim Plus Policy.",
     "confidence": 0.0,
     "processing_time_ms": 1915
+  },
+  {
+    "timestamp": "2025-08-13T08:16:35.798220",
+    "client_ip": "127.0.0.1",
+    "question": "what project hema hegde did",
+    "answer": "Sorry, something went wrong while processing your query!",
+    "confidence": 0.0,
+    "processing_time_ms": 714
+  },
+  {
+    "timestamp": "2025-08-13T08:25:17.110047",
+    "client_ip": "127.0.0.1",
+    "question": "policy",
+    "answer": "I\u2019m sorry, I couldn\u2019t complete the analysis due to an internal error. If you\u2019re asking about something outside the uploaded documents, please upload a PDF that contains that information or try another query.",
+    "confidence": 0.0,
+    "processing_time_ms": 458
+  },
+  {
+    "timestamp": "2025-08-13T08:29:43.302519",
+    "client_ip": "127.0.0.1",
+    "question": "which insurance cover cataract",
+    "answer": "According to the Arogya Sanjeevani Policy - National, cataract is not explicitly mentioned as a covered condition. However, the policy does cover 'Any One Illness' which includes continuous periods of illness and relapse within 45 days from the date of last consultation with the hospital. Cataract is a medical condition that may be considered as an 'Illness' under this policy. However, it is essential to review the policy's definitions and exclusions to determine the specific coverage and limitations.",
+    "confidence": 0.95,
+    "processing_time_ms": 1350
+  },
+  {
+    "timestamp": "2025-08-13T08:30:53.810050",
+    "client_ip": "127.0.0.1",
+    "question": "Does the policy cover 23-hour oral chemotherapy under day care treatment?",
+    "answer": "The policy does not explicitly mention 23-hour oral chemotherapy under day care treatment. However, it does provide general information on getting inpatient treatment and submitting a Treatment Guarantee Form. If you need specific guidance on this treatment, please contact the issuing office for further assistance.",
+    "confidence": 0.85,
+    "processing_time_ms": 1476
+  },
+  {
+    "timestamp": "2025-08-13T08:31:28.199826",
+    "client_ip": "127.0.0.1",
+    "question": "Query: Is a 26-year-old unemployed dependent child eligible for coverage?",
+    "answer": "According to Clause 3.21, a dependent child is eligible for coverage if they are between the age of 3 months to 25 years. Since the 26-year-old unemployed dependent child falls within this age range, they are eligible for coverage.",
+    "confidence": 0.95,
+    "processing_time_ms": 814
+  },
+  {
+    "timestamp": "2025-08-13T08:32:44.282135",
+    "client_ip": "127.0.0.1",
+    "question": "Query: Is robotic surgery for prostate vaporization fully covered in a PPN hospital?",
+    "answer": "I\u2019m sorry, I couldn\u2019t complete the analysis due to an internal error. If you\u2019re asking about something outside the uploaded documents, please upload a PDF that contains that information or try another query.",
+    "confidence": 0.0,
+    "processing_time_ms": 1126
+  },
+  {
+    "timestamp": "2025-08-13T08:33:01.483334",
+    "client_ip": "127.0.0.1",
+    "question": "Query: Is robotic surgery for prostate vaporization fully covered in a PPN hospital?",
+    "answer": "I\u2019m sorry, I couldn\u2019t complete the analysis due to an internal error. If you\u2019re asking about something outside the uploaded documents, please upload a PDF that contains that information or try another query.",
+    "confidence": 0.0,
+    "processing_time_ms": 965
+  },
+  {
+    "timestamp": "2025-08-13T08:38:57.139088",
+    "client_ip": "127.0.0.1",
+    "question": "Is robotic surgery for prostate vaporization fully covered in a PPN hospital?",
+    "answer": "Robotic surgery for prostate vaporization is not fully covered in a PPN hospital. According to Clause 7, Robotic surgeries shall be subject to sub-limits as mentioned under d. benefits covered under the policy. However, the document does not specify the sub-limits or any additional requirements for robotic surgery coverage.",
+    "confidence": 0.85,
+    "processing_time_ms": 1108
+  },
+  {
+    "timestamp": "2025-08-13T08:40:02.046120",
+    "client_ip": "127.0.0.1",
+    "question": "Will cleft palate repair surgery be covered under cosmetic or medically necessary clause?",
+    "answer": "Based on the provided policy wording, cleft palate repair surgery may be covered under the medically necessary clause (Code -Excl08) if it is certified by the attending Medical Practitioner and is not solely for cosmetic purposes. According to clause 8, cosmetic or plastic surgery is only considered medically necessary if it is for reconstruction following an Accident, Burn(s) or Cancer or as part of Medical Necessary Treatment to remove a direct and immediate health risk to the Insured.",
+    "confidence": 0.95,
+    "processing_time_ms": 1038
+  },
+  {
+    "timestamp": "2025-08-13T08:49:28.532641",
+    "client_ip": "127.0.0.1",
+    "question": ": Are surgical gloves and ECG electrodes used during ICU heart surgery reimbursable?",
+    "answer": "Based on the provided document, surgical gloves and ECG electrodes used during ICU heart surgery are not explicitly mentioned as reimbursable or non-reimbursable. However, it's important to note that the document does not provide a comprehensive list of reimbursable medical expenses. Therefore, it's recommended to consult the policy schedule or contact the insurer for specific information on what is covered.",
+    "confidence": 0.8,
+    "processing_time_ms": 1629
+  },
+  {
+    "timestamp": "2025-08-13T08:50:16.922928",
+    "client_ip": "127.0.0.1",
+    "question": "What happens to the waiting period for pre-existing diseases if sum insured is increased after 2 years?",
+    "answer": "According to Clause ID: SECTION D) EXCLUSIONS - STANDARD EXCLUSIONS APPLICABLE TO PART A - DOMESTIC COVER, if the sum insured is increased after 2 years, the waiting period for pre-existing diseases will apply afresh to the extent of the sum insured increase. This is stated in Clause ID: SECTION D) EXCLUSIONS - STANDARD EXCLUSIONS APPLICABLE TO PART A - DOMESTIC COVER, Section 1, Clause (b).",
+    "confidence": 0.95,
+    "processing_time_ms": 932
+  },
+  {
+    "timestamp": "2025-08-13T08:52:33.879246",
+    "client_ip": "127.0.0.1",
+    "question": "What happens to the waiting period for pre-existing diseases if sum insured is increased after 2 years?",
+    "answer": "According to Clause ID: SECTION D) EXCLUSIONS - STANDARD EXCLUSIONS APPLICABLE TO PART A - DOMESTIC COVER, if the sum insured is increased after 2 years, the waiting period for pre-existing diseases will apply afresh to the extent of the sum insured increase. This is stated in Clause ID: SECTION D) EXCLUSIONS - STANDARD EXCLUSIONS APPLICABLE TO PART A - DOMESTIC COVER, Section 1) Pre-Existing Diseases, Clause b. (Page 20, Lines 50-75).",
+    "confidence": 0.95,
+    "processing_time_ms": 1082
+  },
+  {
+    "timestamp": "2025-08-13T08:53:36.156607",
+    "client_ip": "127.0.0.1",
+    "question": "What happens to the waiting period for pre-existing diseases if sum insured is increased after 2 years?",
+    "answer": "According to Clause ID: SECTION D) EXCLUSIONS - STANDARD EXCLUSIONS APPLICABLE TO PART A - DOMESTIC COVER, if the sum insured is increased after 2 years, the waiting period for pre-existing diseases will apply afresh to the extent of the sum insured increase. This is stated in Clause ID: SECTION D) EXCLUSIONS - STANDARD EXCLUSIONS APPLICABLE TO PART A - DOMESTIC COVER, Section 1) Pre-Existing Diseases, Clause b. (Page 20, Lines 50-75).",
+    "confidence": 0.95,
+    "processing_time_ms": 1314
+  },
+  {
+    "timestamp": "2025-08-13T08:58:27.994612",
+    "client_ip": "127.0.0.1",
+    "question": "Will a pre-existing illness declared after 60 months of coverage be rejected?",
+    "answer": "According to Section D, Pre-Existing Diseases (Code -Excl01) exclusion applies until the expiry of 36 months of continuous coverage after the date of inception of the first Global Health Care Policy. If the Insured is continuously covered without any break, the waiting period would be reduced to the extent of prior coverage. However, if a pre-existing illness is declared after 60 months of coverage, it would not be rejected as the exclusion period is 36 months, not 60 months.",
+    "confidence": 0.95,
+    "processing_time_ms": 1349
+  },
+  {
+    "timestamp": "2025-08-13T09:00:20.353472",
+    "client_ip": "127.0.0.1",
+    "question": "What is the arbitration process if insurer disputes claim amount but not liability?",
+    "answer": "If the insurer disputes the claim amount but not liability, the arbitration process will involve referring the dispute to a sole arbitrator, who will be appointed in writing by both parties. If the parties cannot agree on a single arbitrator within 30 days, the dispute will be referred to a panel of three arbitrators, comprising two arbitrators appointed by each party and a third arbitrator appointed by the two arbitrators. The arbitration will be conducted under and in accordance with the provisions of the Arbitration and Conciliation Act, 1996.",
+    "confidence": 0.95,
+    "processing_time_ms": 1079
   }
 ]
